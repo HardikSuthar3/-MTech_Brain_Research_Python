@@ -54,6 +54,7 @@ def batch_norm(x, phase_train, scope='bn', affine=True):
             """
             with tf.control_dependencies([ema_apply_op]):
                 return tf.identity(batch_mean), tf.identity(batch_var)
+
         mean, var = control_flow_ops.cond(phase_train,
                                           mean_var_with_update,
                                           lambda: (ema_mean, ema_var))

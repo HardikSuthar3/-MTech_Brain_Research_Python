@@ -1,3 +1,8 @@
+"""
+Classify origional 4 movies using NN
+Features are shuffeled randomly and batch of fixed size is passed to NN
+"""
+
 import numpy as np
 import scipy.io as sio
 import matplotlib.pyplot as plt
@@ -44,9 +49,9 @@ NextBatch.batchIndex = 0
 # y = svmModel.predict(X_test)
 
 learning_rate = 0.01
-training_epochs = 1500
-display_step = 50
-batch_size = 299  # 41
+training_epochs = 20000
+display_step = 500
+batch_size = 41  # 41
 
 
 def NeuralNetwork(dimensions=[64, 50, 25], no_class=4):

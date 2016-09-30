@@ -1,3 +1,5 @@
+"""Classify Rajeev - 5 Natural Stimulas movie using neural network"""
+
 import numpy as np
 import scipy.io as sio
 import tensorflow as tf
@@ -22,7 +24,7 @@ X_train, X_test, y_train, y_test = train_test_split(XX, yy, test_size=0.25)
 # Parameters
 learning_rate = 0.001
 training_epochs = 500
-batch_size = 7749 #39
+batch_size = 7749  # 39
 display_step = 1
 
 # Network Parameters
