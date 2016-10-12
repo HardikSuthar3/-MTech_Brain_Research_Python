@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/hardik/Desktop/MTech_Project/Scripts/Python/Brain_Research_Python/MNIST_data/myModel.ckpt"
+all_model_checkpoint_paths: "/home/hardik/Desktop/MTech_Project/Scripts/Python/Brain_Research_Python/MNIST_data/myModel.ckpt"
