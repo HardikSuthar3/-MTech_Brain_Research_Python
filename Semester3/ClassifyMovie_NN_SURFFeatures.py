@@ -7,7 +7,7 @@ import numpy as np
 import scipy.io as sio
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from sklearn import preprocessing, svm, cross_validation, metrics
+from sklearn import preprocessing, svm, cross_validation, metrics, model_selection
 import math
 
 """Prepare The Data"""
@@ -18,13 +18,12 @@ y_ = data['LABELS']
 # Converting into One Hot Encoding
 lblBinary = preprocessing.LabelBinarizer()
 y_ = lblBinary.fit_transform(y_)
-X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y_, train_size=0.7)
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y_, train_size=0.7)
 
 """
 Train Data : 12259
 factors(batch): 1 13 23 41 299 533 943 12259
 """
-
 
 def NextBatch(batchSize=41):
     data = X_train[NextBatch.batchIndex:NextBatch.batchIndex + batchSize, :], \
@@ -33,7 +32,6 @@ def NextBatch(batchSize=41):
            :]
     NextBatch.batchIndex += batchSize
     return data
-
 
 NextBatch.batchIndex = 0
 
@@ -52,7 +50,6 @@ learning_rate = 0.01
 training_epochs = 20000
 display_step = 500
 batch_size = 41  # 41
-
 
 def NeuralNetwork(dimensions=[64, 50, 25], no_class=4):
     """Build a deep Neural Network w/ tied weights.
@@ -104,7 +101,6 @@ def NeuralNetwork(dimensions=[64, 50, 25], no_class=4):
     cross_entropy = -tf.reduce_sum(Y * tf.log(output))
     return {'X': X, 'Y': Y, 'cost': cost, 'cross_entropy': cross_entropy,
             'model': output, 'W': weights, 'b': biases, 'predict': output}
-
 
 net = NeuralNetwork(dimensions=[64, 50, 20])
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(net['cost'])
