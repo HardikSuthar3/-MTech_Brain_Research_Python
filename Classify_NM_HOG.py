@@ -5,8 +5,9 @@ from sklearn.decomposition import pca
 from sklearn.model_selection import train_test_split
 import scipy.io as sio
 
-"""Transforms the Raw HOG features into Normalized PCA features for better classification"""
+sess = tf.Session()
 
+"""Transforms the Raw HOG features into Normalized PCA features for better classification"""
 def load_data():
     data = sio.loadmat('/home/hardik/Desktop/MTech_Project/Data/HOG_Feature_Data/natural_movies_hog_features.mat')
     features = data['hog_features']
@@ -32,7 +33,7 @@ NextBatch.batchIndex = 0
 
 """Create a Neural Network Model"""
 learning_rate = 0.01
-training_epochs = 20000
+training_epochs = 2000
 display_step = 100
 batch_size = 16
 
@@ -45,12 +46,13 @@ def NNModel(dimensions=[50, 25, 10], n_class=4):
     weights = []
     biases = []
     for layer_i, n_output in enumerate(dimensions[1:]):
-        n_input = current_input.get_shape()[1]
+        n_input = int(current_input.get_shape()[1])
         w = tf.Variable(tf.random_normal([n_input, n_output]), tf.float32)
         b = tf.Variable(tf.zeros([n_output]), tf.float32)
         weights.append(w)
         biases.append(b)
         current_input = tf.nn.tanh(tf.add(tf.matmul(current_input, w), b))
+
     # Creating Output Layer
     n_input = int(current_input.get_shape()[1])
     w = tf.Variable(tf.random_normal(shape=[n_input, n_class]), dtype=tf.float32)
@@ -58,3 +60,11 @@ def NNModel(dimensions=[50, 25, 10], n_class=4):
     output = tf.add(tf.matmul(current_input, w), b)
     cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(output, y))
     return {'x': x, 'y': y, 'weights': weights, 'biases': biases, 'cross_entropy': cross_entropy, 'output': output}
+
+NN = NNModel()
+sess.run(tf.global_variables_initializer())
+output = NN['output']
+y_pred = tf.nn.softmax(output)
+correct_prediction = tf.equal(tf.argmax(y_pred, 1), tf.argmax(NN['y'], 1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(NN['cross_entropy'])
