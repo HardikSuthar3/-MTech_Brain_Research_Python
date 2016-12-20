@@ -61,7 +61,7 @@ NextBatch.batchIndex = 0
 
 """Neural Network Parameters"""
 learning_rate = 0.01
-training_epochs = 1
+training_epochs = 300
 display_step = 100
 batch_size = 16
 
@@ -71,7 +71,7 @@ y_pred = tf.nn.softmax(output)
 correct_prediction = tf.equal(tf.argmax(y_pred, 1), tf.argmax(NN['y'], 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(NN['cross_entropy'])
+optimizer = tf.train.AdamOptimizer(learning_rate).minimize(NN['cross_entropy'])
 sess.run(tf.global_variables_initializer())
 
 prevCost = 0.0
