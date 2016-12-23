@@ -1,0 +1,6 @@
+model_checkpoint_path: "/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-270"
+all_model_checkpoint_paths: "/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-150"
+all_model_checkpoint_paths: "/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-180"
+all_model_checkpoint_paths: "/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-210"
+all_model_checkpoint_paths: "/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-240"
+all_model_checkpoint_paths: "/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-270"

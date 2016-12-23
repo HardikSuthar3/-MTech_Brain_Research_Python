@@ -37,7 +37,7 @@ def get_hog_features():
     features = data['hog_features']
     labels = data['hog_labels'].flatten()
     labels = sess.run(tf.one_hot(labels, depth=4))
-    print(labels.shape)
+    # print(labels.shape)
 
     # Normalizing The Data
     from sklearn.preprocessing import Normalizer
@@ -66,10 +66,10 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(NN['cross_entropy'])
 saver = tf.train.Saver()
-tmp = NN['weights'][0]
-print(tmp[0][0])
+
 saver.restore(sess=sess,
               save_path='/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-150')
+
 Accuracy = sess.run(accuracy, feed_dict={NN['x']: x_test, NN['y']: y_test})
 print("Accuracy %f" % Accuracy)
 sess.close()
