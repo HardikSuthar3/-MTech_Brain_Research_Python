@@ -52,13 +52,6 @@ def get_hog_features():
 data = get_hog_features()
 x_train, x_test, y_train, y_test = train_test_split(data['features'], data['labels'], train_size=0.8)
 
-def NextBatch(batchSize=16):
-    data = x_train[NextBatch.batchIndex:NextBatch.batchIndex + batchSize, :], \
-           y_train[NextBatch.batchIndex:NextBatch.batchIndex + batchSize, :]
-    NextBatch.batchIndex += batchSize
-    return data
-NextBatch.batchIndex = 0
-
 """Neural Network Parameters"""
 learning_rate = 0.01
 training_epochs = 300
@@ -73,23 +66,10 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(NN['cross_entropy'])
 saver = tf.train.Saver()
-sess.run(tf.global_variables_initializer())
-
-prevCost = 0.0
-for ep_i in range(training_epochs):
-    total_batch = int(x_train.shape[0] / batch_size)
-    for batch_i in range(2):
-        bx, by = NextBatch(batchSize=batch_size)
-        print(type(bx))
-        sess.run(optimizer, feed_dict={NN['x']: bx, NN['y']: by})
-    training_cost = sess.run(NN['cross_entropy'], feed_dict={NN['x']: x_train, NN['y']: y_train})
-    if ep_i % 30 == 0:
-        saver.save(sess=sess,
-                   save_path='/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt',
-                   global_step=ep_i)
-    if np.abs(prevCost - training_cost) < 0.00001:
-        break
-
+tmp = NN['weights'][0]
+print(tmp[0][0])
+saver.restore(sess=sess,
+              save_path='/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python/SavedModels/nm_hog.ckpt-150')
 Accuracy = sess.run(accuracy, feed_dict={NN['x']: x_test, NN['y']: y_test})
 print("Accuracy %f" % Accuracy)
 sess.close()
