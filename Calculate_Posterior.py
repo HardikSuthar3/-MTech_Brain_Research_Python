@@ -8,7 +8,7 @@ import scipy.io as sio
 sess = tf.Session()
 
 def get_hog_features():
-    data = sio.loadmat('/home/hardik/Desktop/MTech_Project/Data/HOG_Feature_Data/area3.mat')
+    data = sio.loadmat('/home/hardik/Desktop/MTech_Project/Data/HOG_Feature_Data/SingleVideo/3/area9.mat')
     features = data['area_feature']
     labels = data['area_label'].flatten()
     labels = sess.run(tf.one_hot(labels, depth=4))

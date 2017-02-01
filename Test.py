@@ -1,14 +1,10 @@
 import tensorflow as tf
 import numpy as np
 import scipy.io as sio
-from sklearn import preprocessing
+import matplotlib.pyplot as plt
 
-sess = tf.InteractiveSession()
-
-X = np.random.randn(5, 4)
-Y = np.array([0, 1, 2, 3, 0])
-Y = tf.one_hot(Y, depth=4).eval()
-ind = np.argmax(Y, axis=1)
-print(X)
-for row, i in enumerate(ind):
-    print(X[row, i])
+data = np.loadtxt('/home/hardik/Desktop/MTech_Project/Data/HOG_Feature_Data/SingleVideo/1/result.txt')
+print(data)
+plt.hist(range(1, 10, 1), weights=data)
+plt.ylim(ymax=1, ymin=0)
+plt.show()
