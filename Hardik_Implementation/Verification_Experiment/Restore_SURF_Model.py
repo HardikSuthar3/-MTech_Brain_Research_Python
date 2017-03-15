@@ -98,4 +98,11 @@ optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss=lo
 modelSaver = tf.train.Saver()
 
 with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
+    modelSaver.restore(sess=sess,
+                       save_path='/home/hardik/Desktop/MTech_Project/Scripts/Python/MTech_Brain_Research_Python'
+                                 '/Hardik_Implementation/Verification_Experiment/SavedModel/d1/nm_surf.ckpt-499')
+    Accuracy = sess.run(accuracy, feed_dict={
+        NN['x']: testX,
+        NN['y']: testY
+    })
+    print(Accuracy)
