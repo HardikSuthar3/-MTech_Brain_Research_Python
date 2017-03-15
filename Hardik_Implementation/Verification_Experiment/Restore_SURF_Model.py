@@ -99,34 +99,3 @@ modelSaver = tf.train.Saver()
 
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
-    prev_training_cost = 0.0
-    normalizer = preprocess.Normalizer()
-    for iter in range(50):
-        NextBatch.batchSize = 0
-        for ep_i in range(int(trainX.shape[0] / batch_size)):
-            X, Y = NextBatch()
-            X = normalizer.fit_transform(X)
-            sess.run(optimizer, feed_dict={
-                NN['x']: X,
-                NN['y']: Y
-            })
-            training_cost = sess.run(loss, feed_dict={
-                NN['x']: trainX,
-                NN['y']: trainY
-            })
-            if (ep_i % 50 == 0):
-                print("Training Cost: %f" % training_cost)
-            if (np.abs(prev_training_cost - training_cost) < 0.00001):
-                print("Exiting")
-                break
-            prev_training_cost = training_cost
-
-        Accuracy = sess.run(accuracy, feed_dict={
-            NN['x']: testX,
-            NN['y']: testY
-        })
-        modelSaver.save(sess=sess, save_path='/home/hardik/Desktop/MTech_Project/Scripts/Python'
-                                             '/MTech_Brain_Research_Python/Hardik_Implementation'
-                                             '/Verification_Experiment/SavedModel/nm_surf.ckpt', global_step=iter)
-
-    print("Accuracy: %f" % Accuracy)
