@@ -7,6 +7,7 @@ import scipy.io as sio
 
 sess = tf.Session()
 
+
 def NNModel(dimensions=[50, 25, 10], n_class=4):
     x = tf.placeholder(tf.float32, shape=[None, dimensions[0]])
     y = tf.placeholder(tf.float32, shape=[None, n_class])
@@ -32,6 +33,7 @@ def NNModel(dimensions=[50, 25, 10], n_class=4):
     cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(output, y))
     return {'x': x, 'y': y, 'weights': weights, 'biases': biases, 'cross_entropy': cross_entropy, 'output': output}
 
+
 def get_hog_features():
     data = sio.loadmat('/home/hardik/Desktop/MTech_Project/Data/HOG_Feature_Data/natural_movies_hog_features.mat')
     features = data['hog_features']
@@ -49,14 +51,18 @@ def get_hog_features():
 
     return {'features': pca_features, 'labels': labels}
 
+
 data = get_hog_features()
 x_train, x_test, y_train, y_test = train_test_split(data['features'], data['labels'], train_size=0.8)
+
 
 def NextBatch(batchSize=16):
     data = x_train[NextBatch.batchIndex:NextBatch.batchIndex + batchSize, :], \
            y_train[NextBatch.batchIndex:NextBatch.batchIndex + batchSize, :]
     NextBatch.batchIndex += batchSize
     return data
+
+
 NextBatch.batchIndex = 0
 
 """Neural Network Parameters"""
