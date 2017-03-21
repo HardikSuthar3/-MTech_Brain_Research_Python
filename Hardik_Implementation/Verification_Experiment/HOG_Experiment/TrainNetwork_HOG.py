@@ -26,6 +26,11 @@ def get_hog_features():
     return {'features': pca_features, 'labels': labels}
 
 
+data = get_hog_features()
+
+trainX, testX, trainY, testY = train_test_split(data['features'], data['labels'], train_size=0.8)
+
+
 def NextBatch():
     s = NextBatch.batchSize
     e = s + batch_size
@@ -34,7 +39,7 @@ def NextBatch():
 
 
 # Build Neural Network
-def NNModl(dimensions=[64, 50, 25, 10], n_class=4):
+def NNModl(dimensions=[50, 100, 25, 10], n_class=4):
     X = tf.placeholder(dtype=tf.float32, shape=[None, dimensions[0]])
     Y = tf.placeholder(dtype=tf.float32, shape=[None, n_class])
     current_input = X
@@ -68,10 +73,6 @@ def NNModl(dimensions=[64, 50, 25, 10], n_class=4):
 
 NextBatch.batchSize = 0
 
-data = get_hog_features()
-
-trainX, testX, trainY, testY = train_test_split(data['features'], data['labels'], train_size=0.8)
-
 # Configure Neural Network
 learning_rate = 0.01
 batch_size = 32
@@ -96,7 +97,7 @@ modelSaver = tf.train.Saver()
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     prev_training_cost = 0.0
-    for iter in range(50):
+    for iter in range(10):
         NextBatch.batchSize = 0
         for ep_i in range(int(trainX.shape[0] / batch_size)):
             X, Y = NextBatch()
@@ -110,7 +111,7 @@ with tf.Session() as sess:
             })
             if (ep_i % 50 == 0):
                 print("Training Cost: %f" % training_cost)
-            if (np.abs(prev_training_cost - training_cost) < 0.00001):
+            if (np.abs(prev_training_cost - training_cost) < 0.000001):
                 print("Exiting")
                 break
             prev_training_cost = training_cost
