@@ -101,7 +101,7 @@ with tf.Session() as sess:
     visualAreaPosteriorValues = []
     for areaNumber in range(1, 10):
         data = getAreaData(areaNumber)
-
+        print(data['x'].shape)
         posterior = 0
 
         result = sess.run(y_pred, feed_dict={
